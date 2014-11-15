@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Sat Nov 15 13:46:07 CST 2014:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.8.3.2 - (1557835): instance a816c00e-0149-b173-5afd-000001747798 
+on database directory /Users/fuyun/NetBeansProjects/LogInCruiseReport/dist/cruiseDB  with class loader sun.misc.Launcher$AppClassLoader@4bcd2d49 
+Loaded from file:/Users/fuyun/NetBeansProjects/LogInCruiseReport/dist/lib/derby.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.7.0_65-b17
+user.dir=/Users/fuyun/NetBeansProjects/LogInCruiseReport/dist
+os.name=Mac OS X
+os.arch=x86_64
+os.version=10.10
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''

@@ -1,0 +1,110 @@
+JFDML JFormDesigner: "5.2.1.0.132" Java: "1.6.0_65" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.GridBagLayout ) {
+			"$columnSpecs": "0, 0, 0, 0, 0"
+			"$rowSpecs": "0, 0, 0, 0"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 3
+			add( new FormComponent( "javax.swing.JComboBox" ) {
+				name: "passengerSort"
+				"model": new javax.swing.DefaultComboBoxModel {
+					selectedItem: "Nationality"
+					addElement( "Nationality" )
+					addElement( "AgeRange" )
+				}
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "passengerSortActionPerformed", true ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 1
+				"gridheight": 2
+				"hAlign": 2
+				"vAlign": 1
+				"insets": new java.awt.Insets( 20, 4, 0, 0 )
+				"ipadx": 29
+			} )
+			add( new FormComponent( "javax.swing.JLabel" ) {
+				name: "jLabel1"
+				"text": "Find passengers by"
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"hAlign": 2
+				"vAlign": 1
+				"insets": new java.awt.Insets( 20, 20, 0, 0 )
+				"ipadx": 25
+				"ipady": 4
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "PassengerSearch"
+				"text": "Search"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "PassengerSearchActionPerformed", true ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 2
+				"gridheight": 3
+				"hAlign": 2
+				"vAlign": 1
+				"insets": new java.awt.Insets( 20, 26, 0, 0 )
+			} )
+			add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+				name: "jScrollPane1"
+				add( new FormComponent( "javax.swing.JTable" ) {
+					name: "PassengerTable"
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridy": 3
+				"gridwidth": 5
+				"weightx": 1.0
+				"weighty": 1.0
+				"insets": new java.awt.Insets( 11, 10, 27, 6 )
+				"ipadx": 744
+				"ipady": 194
+			} )
+			add( new FormComponent( "javax.swing.JButton" ) {
+				name: "ShowAllPassengers"
+				"text": "Show All passengers"
+				addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "ShowAllPassengersActionPerformed", true ) )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"gridx": 3
+				"gridheight": 3
+				"hAlign": 2
+				"vAlign": 1
+				"insets": new java.awt.Insets( 20, 25, 0, 0 )
+				"ipadx": 7
+			} )
+			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
+				name: "jMenuBar1"
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "Query"
+					"text": "Query"
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "Passengers"
+						"text": "Passengers"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "PassengersActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "Cruises"
+						"text": "Cruises"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "CruisesActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JMenuItem" ) {
+						name: "Sailors"
+						"text": "Sailors"
+					} )
+				} )
+			}
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 783, 330 )
+		} )
+		add( new FormNonVisual( "javax.swing.ButtonGroup" ) {
+			name: "buttonGroup1"
+		} )
+		add( new FormContainer( "javax.swing.JPopupMenu", new FormLayoutManager( class javax.swing.JPopupMenu ) ) {
+			name: "jPopupMenu1"
+		} )
+		add( new FormComponent( "javax.swing.JMenuItem" ) {
+			name: "jMenuItem1"
+			"text": "jMenuItem1"
+		} )
+	}
+}

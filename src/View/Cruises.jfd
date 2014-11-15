@@ -1,0 +1,148 @@
+JFDML JFormDesigner: "5.2.1.0.132" Java: "1.6.0_65" encoding: "UTF-8"
+
+new FormModel {
+	contentType: "form/swing"
+	root: new FormRoot {
+		add( new FormWindow( "javax.swing.JFrame", new FormLayoutManager( class java.awt.GridBagLayout ) {
+			"$columnSpecs": "0"
+			"$rowSpecs": "0"
+		} ) {
+			name: "this"
+			"defaultCloseOperation": 3
+			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
+				"$horizontalGroup": "par l {seq {space :::p, comp jLabel1:::p::p, space s:::p, comp port1:::p::p, space u:::p, comp port2:::p::p, space s:::p, comp port3:::p::p, space :::p, comp port4:::p::p, space :::x, comp CruiseSearch:::p::p, space :::p}, seq l {space :p:20:p, comp jScrollPane1:::p:588:p, space ::-105:x}}"
+				"$verticalGroup": "par l {seq {space :::p, par b {comp jLabel1::b:p::p, comp port1::b:p::p, comp port2::b:p::p, comp port3::b:p::p, comp port4::b:p::p, comp CruiseSearch::b:p::p}, space :::p, comp jScrollPane1:::p:260:p, space :::p}}"
+			} ) {
+				name: "jPanel1"
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "port4"
+					"text": "port 4"
+				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "CruiseSearch"
+					"text": "Search"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "CruiseSearchActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "port3"
+					"text": "port 3"
+				} )
+				add( new FormComponent( "javax.swing.JLabel" ) {
+					name: "jLabel1"
+					"text": "Find the ports of cruises"
+				} )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "port1"
+					"text": "port 1"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "port1ActionPerformed", true ) )
+				} )
+				add( new FormComponent( "javax.swing.JCheckBox" ) {
+					name: "port2"
+					"text": "port 2"
+				} )
+				add( new FormContainer( "javax.swing.JScrollPane", new FormLayoutManager( class javax.swing.JScrollPane ) ) {
+					name: "jScrollPane1"
+					add( new FormComponent( "javax.swing.JTable" ) {
+						name: "CruiseTable"
+						"model": new com.jformdesigner.model.SwingTableModel( new java.util.Vector {
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+							add( new java.util.Vector {
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+								add( null )
+							} )
+						}, new java.util.Vector {
+							add( "Cruise ID" )
+							add( "Ship ID" )
+							add( "Port 1" )
+							add( "Port 2" )
+							add( "Port 3" )
+							add( "Port 4" )
+						}, new java.util.Vector {
+							add( class java.lang.Object )
+							add( class java.lang.Object )
+							add( class java.lang.Object )
+							add( class java.lang.Object )
+							add( class java.lang.Object )
+							add( class java.lang.Object )
+						}, new java.util.Vector {
+							add( true )
+							add( true )
+							add( true )
+							add( true )
+							add( true )
+							add( true )
+						}, new java.util.Vector {
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+							add( null )
+						} )
+						"surrendersFocusOnKeystroke": true
+					} )
+				} )
+			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
+				"hAlign": 2
+				"vAlign": 1
+				"insets": new java.awt.Insets( 6, 15, 17, 31 )
+				"ipadx": 9
+			} )
+			menuBar: new FormContainer( "javax.swing.JMenuBar", new FormLayoutManager( class javax.swing.JMenuBar ) ) {
+				name: "jMenuBar1"
+				add( new FormContainer( "javax.swing.JMenu", new FormLayoutManager( class javax.swing.JMenu ) ) {
+					name: "Query"
+					"text": "Query"
+					add( new FormComponent( "javax.swing.JCheckBoxMenuItem" ) {
+						name: "Passengers"
+						"selected": true
+						"text": "Passengers"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "PassengersActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JCheckBoxMenuItem" ) {
+						name: "Cruises"
+						"selected": true
+						"text": "Cruises"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "CruisesActionPerformed", true ) )
+					} )
+					add( new FormComponent( "javax.swing.JCheckBoxMenuItem" ) {
+						name: "Sailors"
+						"selected": true
+						"text": "Sailors"
+						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "SailorsActionPerformed", true ) )
+					} )
+				} )
+			}
+		}, new FormLayoutConstraints( null ) {
+			"size": new java.awt.Dimension( 660, 405 )
+			"location": new java.awt.Point( 0, 0 )
+		} )
+	}
+}
