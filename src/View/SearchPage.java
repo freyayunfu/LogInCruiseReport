@@ -19,8 +19,10 @@ import java.util.logging.Logger;
  */
 
 /**
- *
- * @author fuyun
+ * This class create the form SearhPage for passenger information.
+ * @author yunfu
+ * @version 1.0
+ * @since 17/11/2014
  */
 public class SearchPage extends javax.swing.JFrame {
     private DefaultTableModel tableModel;
@@ -52,7 +54,6 @@ public class SearchPage extends javax.swing.JFrame {
         Query = new JMenu();
         Passengers = new JMenuItem();
         Cruises = new JMenuItem();
-        Sailors = new JMenuItem();
         passengerSort = new JComboBox();
         jLabel1 = new JLabel();
         PassengerSearch = new JButton();
@@ -93,10 +94,6 @@ public class SearchPage extends javax.swing.JFrame {
                     }
                 });
                 Query.add(Cruises);
-
-                //---- Sailors ----
-                Sailors.setText("Sailors");
-                Query.add(Sailors);
             }
             jMenuBar1.add(Query);
         }
@@ -255,7 +252,6 @@ public class SearchPage extends javax.swing.JFrame {
     private JMenu Query;
     private JMenuItem Passengers;
     private JMenuItem Cruises;
-    private JMenuItem Sailors;
     private JComboBox passengerSort;
     private JLabel jLabel1;
     private JButton PassengerSearch;

@@ -17,14 +17,41 @@ import java.awt.event.ActionListener;
 
 
 /**
- *
- * @author fuyun
+ * This class create the form Cruise.
+ * @author yunfu
+ * @version 1.0
+ * @since 17/11/2014
  */
 public class Cruises extends javax.swing.JFrame {
 
     /**
      * Creates new form Cruise
      */
+    private void evaluationActionPerformed(ActionEvent e) {
+        String[] name = {"CruiseID", "PassengerID", "food", "service", "environment", "drink", "internet", "entertainment", "MoneySpent"};
+        String[][] data = new String[10000][9];//此处略去赋值操作
+        DefaultTableModel defaultmodel = new DefaultTableModel(data, name);
+        CruiseTable.setModel(defaultmodel);
+        for(int i=0; i<CruiseTable.getRowCount(); i++){
+            CruiseTable.setValueAt(null, i, 0);
+            CruiseTable.setValueAt(null, i, 1);
+            CruiseTable.setValueAt(null, i, 2);
+        }
+            for (int i = 0; i < SearchPage.db.getEvaluation().size(); i++) {
+
+                CruiseTable.setValueAt(SearchPage.db.getEvaluation().get(i).getCruiseID(), i, 0);
+                CruiseTable.setValueAt(SearchPage.db.getEvaluation().get(i).getPassengerID(), i, 1);
+                CruiseTable.setValueAt(SearchPage.db.getEvaluation().get(i).getFood(), i, 2);
+                CruiseTable.setValueAt(SearchPage.db.getEvaluation().get(i).getService(), i, 3);
+                CruiseTable.setValueAt(SearchPage.db.getEvaluation().get(i).getEnvironment(), i, 4);
+                CruiseTable.setValueAt(SearchPage.db.getEvaluation().get(i).getDrink(), i, 5);
+                CruiseTable.setValueAt(SearchPage.db.getEvaluation().get(i).getInternet(), i, 6);
+                CruiseTable.setValueAt(SearchPage.db.getEvaluation().get(i).getEntertainment(), i, 7);
+                CruiseTable.setValueAt(SearchPage.db.getEvaluation().get(i).getMoneySpent(), i, 8);
+            }
+        }
+
+
     public Cruises() {
 
         initComponents();
@@ -48,7 +75,6 @@ public class Cruises extends javax.swing.JFrame {
         Query = new JMenu();
         Passengers = new JCheckBoxMenuItem();
         Cruises = new JCheckBoxMenuItem();
-        Sailors = new JCheckBoxMenuItem();
         jPanel1 = new JPanel();
         port4 = new JCheckBox();
         CruiseSearch = new JButton();
@@ -58,6 +84,7 @@ public class Cruises extends javax.swing.JFrame {
         port2 = new JCheckBox();
         jScrollPane1 = new JScrollPane();
         CruiseTable = new JTable();
+        evaluation = new JButton();
 
         //======== this ========
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -92,17 +119,6 @@ public class Cruises extends javax.swing.JFrame {
                     }
                 });
                 Query.add(Cruises);
-
-                //---- Sailors ----
-                Sailors.setSelected(true);
-                Sailors.setText("Sailors");
-                Sailors.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        SailorsActionPerformed(e);
-                    }
-                });
-                Query.add(Sailors);
             }
             jMenuBar1.add(Query);
         }
@@ -168,6 +184,15 @@ public class Cruises extends javax.swing.JFrame {
                 jScrollPane1.setViewportView(CruiseTable);
             }
 
+            //---- evaluation ----
+            evaluation.setText("Evaluation");
+            evaluation.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    evaluationActionPerformed(e);
+                }
+            });
+
             GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
             jPanel1.setLayout(jPanel1Layout);
             jPanel1Layout.setHorizontalGroup(
@@ -183,26 +208,31 @@ public class Cruises extends javax.swing.JFrame {
                         .addComponent(port3)
                         .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(port4)
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(CruiseSearch)
-                        .addContainerGap())
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(evaluation)
+                        .addContainerGap(54, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 588, GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1, GroupLayout.DEFAULT_SIZE, 668, Short.MAX_VALUE)
+                        .addContainerGap())
             );
             jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createParallelGroup()
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(port1)
-                            .addComponent(port2)
-                            .addComponent(port3)
-                            .addComponent(port4)
-                            .addComponent(CruiseSearch))
-                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel1)
+                                .addComponent(port1)
+                                .addComponent(port2)
+                                .addComponent(port3)
+                                .addComponent(port4))
+                            .addGroup(jPanel1Layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                .addComponent(evaluation)
+                                .addComponent(CruiseSearch)))
+                        .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 260, GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
             );
@@ -216,15 +246,14 @@ public class Cruises extends javax.swing.JFrame {
 
     private void PassengersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PassengersActionPerformed
         // TODO add your handling code here:
+        SearchPage searchpage = new SearchPage();
     }//GEN-LAST:event_PassengersActionPerformed
 
     private void CruisesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CruisesActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_CruisesActionPerformed
 
-    private void SailorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SailorsActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_SailorsActionPerformed
+
 
     private void port1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_port1ActionPerformed
         // TODO add your handling code here:
@@ -233,7 +262,7 @@ public class Cruises extends javax.swing.JFrame {
     private void CruiseSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CruiseSearchActionPerformed
         // TODO add your handling code here:
         String[] name = {"Cruise ID","Ship ID","Port 1","Port 2", "Port 3", "Port 4"};
-        String[][] data = new String[300][6];//此处略去赋值操作
+        String[][] data = new String[300][6];
         DefaultTableModel defaultmodel = new DefaultTableModel(data, name);
         CruiseTable.setModel(defaultmodel);
         for(int i=0; i<CruiseTable.getRowCount(); i++){
@@ -242,55 +271,158 @@ public class Cruises extends javax.swing.JFrame {
             CruiseTable.setValueAt(null, i, 2);
             CruiseTable.setValueAt(null, i, 3);
         }
-//        try{
-        for(int i=0; i<SearchPage.db.getCruiseAll().size(); i++){
 
-            CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getID(), i, 0);
-            CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getShipID(), i, 1);
-            CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort1(), i, 2);
-            CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort2(), i, 3);
-            CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort3(), i, 4);
-            CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort4(), i, 5);
+        if(port1.isSelected()&&port2.isSelected()&&port3.isSelected()&&port4.isSelected()) {
+            for (int i = 0; i < SearchPage.db.getCruiseAll().size(); i++) {
+
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getID(), i, 0);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getShipID(), i, 1);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort1(), i, 2);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort2(), i, 3);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort3(), i, 4);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort4(), i, 5);
+            }
+        }else if(port1.isSelected()&&port2.isSelected()&&port3.isSelected()){
+            for (int i = 0; i < SearchPage.db.getCruiseAll().size(); i++) {
+
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getID(), i, 0);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getShipID(), i, 1);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort1(), i, 2);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort2(), i, 3);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort3(), i, 4);
+
+            }
+        }else if(port1.isSelected()&&port3.isSelected()&&port4.isSelected()){
+            for (int i = 0; i < SearchPage.db.getCruiseAll().size(); i++) {
+
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getID(), i, 0);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getShipID(), i, 1);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort1(), i, 2);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort3(), i, 4);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort4(), i, 5);
+
+            }
+        }else if(port2.isSelected()&&port3.isSelected()&&port4.isSelected()){
+            for (int i = 0; i < SearchPage.db.getCruiseAll().size(); i++) {
+
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getID(), i, 0);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getShipID(), i, 1);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort2(), i, 3);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort3(), i, 4);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort4(), i, 5);
+
+            }
+        }else if(port1.isSelected()&&port2.isSelected()&&port4.isSelected()){
+            for (int i = 0; i < SearchPage.db.getCruiseAll().size(); i++) {
+
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getID(), i, 0);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getShipID(), i, 1);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort1(), i, 2);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort2(), i, 3);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort4(), i, 5);
+
+            }
+        }else if(port1.isSelected()&&port2.isSelected()){
+            for (int i = 0; i < SearchPage.db.getCruiseAll().size(); i++) {
+
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getID(), i, 0);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getShipID(), i, 1);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort1(), i, 2);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort2(), i, 3);
+
+            }
+        }else if(port1.isSelected()&&port3.isSelected()){
+            for (int i = 0; i < SearchPage.db.getCruiseAll().size(); i++) {
+
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getID(), i, 0);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getShipID(), i, 1);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort1(), i, 2);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort3(), i, 4);
+
+            }
         }
-//        } catch (SQLException ex) {
-//                Logger.getLogger(SearchPage.class.getName()).log(Level.SEVERE, null, ex);
-//            }
+        else if(port2.isSelected()&&port3.isSelected()){
+            for (int i = 0; i < SearchPage.db.getCruiseAll().size(); i++) {
+
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getID(), i, 0);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getShipID(), i, 1);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort2(), i, 3);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort3(), i, 4);
+
+            }
+        } else if(port1.isSelected()&&port3.isSelected()){
+            for (int i = 0; i < SearchPage.db.getCruiseAll().size(); i++) {
+
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getID(), i, 0);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getShipID(), i, 1);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort1(), i, 2);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort3(), i, 4);
+
+            }
+        } else if(port2.isSelected()&&port4.isSelected()){
+            for (int i = 0; i < SearchPage.db.getCruiseAll().size(); i++) {
+
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getID(), i, 0);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getShipID(), i, 1);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort2(), i, 3);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort4(), i, 5);
+
+            }
+        }else if(port1.isSelected()&&port4.isSelected()){
+            for (int i = 0; i < SearchPage.db.getCruiseAll().size(); i++) {
+
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getID(), i, 0);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getShipID(), i, 1);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort1(), i, 2);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort4(), i, 5);
+
+            }
+        }else if(port3.isSelected()&&port4.isSelected()){
+            for (int i = 0; i < SearchPage.db.getCruiseAll().size(); i++) {
+
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getID(), i, 0);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getShipID(), i, 1);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort3(), i, 4);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort4(), i, 5);
+
+            }
+        } else if(port1.isSelected()){
+            for (int i = 0; i < SearchPage.db.getCruiseAll().size(); i++) {
+
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getID(), i, 0);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getShipID(), i, 1);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort1(), i, 2);
+
+            }
+        }else if(port2.isSelected()){
+            for (int i = 0; i < SearchPage.db.getCruiseAll().size(); i++) {
+
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getID(), i, 0);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getShipID(), i, 1);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort2(), i, 3);
+
+            }
+        }else if(port3.isSelected()){
+            for (int i = 0; i < SearchPage.db.getCruiseAll().size(); i++) {
+
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getID(), i, 0);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getShipID(), i, 1);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort3(), i, 4);
+
+            }
+        }else if(port4.isSelected()){
+            for (int i = 0; i < SearchPage.db.getCruiseAll().size(); i++) {
+
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getID(), i, 0);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getShipID(), i, 1);
+                CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort4(), i, 5);
+
+            }
+        }
+
     }//GEN-LAST:event_CruiseSearchActionPerformed
 
-//    /**
-//     * @param args the command line arguments
-//     */
-//    public static void main(String args[]) {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(Cruise.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(Cruise.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(Cruise.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(Cruise.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new Cruise().setVisible(true);
-//            }
-//        });
-//    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // Generated using JFormDesigner Evaluation license - Fu Yun
@@ -298,7 +430,6 @@ public class Cruises extends javax.swing.JFrame {
     private JMenu Query;
     private JCheckBoxMenuItem Passengers;
     private JCheckBoxMenuItem Cruises;
-    private JCheckBoxMenuItem Sailors;
     private JPanel jPanel1;
     private JCheckBox port4;
     private JButton CruiseSearch;
@@ -308,5 +439,6 @@ public class Cruises extends javax.swing.JFrame {
     private JCheckBox port2;
     private JScrollPane jScrollPane1;
     private JTable CruiseTable;
+    private JButton evaluation;
     // End of variables declaration//GEN-END:variables
 }

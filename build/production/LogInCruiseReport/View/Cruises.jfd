@@ -10,8 +10,8 @@ new FormModel {
 			name: "this"
 			"defaultCloseOperation": 3
 			add( new FormContainer( "javax.swing.JPanel", new FormLayoutManager( class org.jdesktop.layout.GroupLayout ) {
-				"$horizontalGroup": "par l {seq {space :::p, comp jLabel1:::p::p, space s:::p, comp port1:::p::p, space u:::p, comp port2:::p::p, space s:::p, comp port3:::p::p, space :::p, comp port4:::p::p, space :::x, comp CruiseSearch:::p::p, space :::p}, seq l {space :p:20:p, comp jScrollPane1:::p:588:p, space ::-105:x}}"
-				"$verticalGroup": "par l {seq {space :::p, par b {comp jLabel1::b:p::p, comp port1::b:p::p, comp port2::b:p::p, comp port3::b:p::p, comp port4::b:p::p, comp CruiseSearch::b:p::p}, space :::p, comp jScrollPane1:::p:260:p, space :::p}}"
+				"$horizontalGroup": "par l {seq {space :::p, comp jLabel1:::p::p, space s:::p, comp port1:::p::p, space u:::p, comp port2:::p::p, space s:::p, comp port3:::p::p, space :::p, comp port4:::p::p, space :::p, comp CruiseSearch:::p::p, space :::p, comp evaluation:::p::p, space ::54:x}, seq {space :p:20:p, comp jScrollPane1::::668:x, space :::p}}"
+				"$verticalGroup": "par l {seq {space :::p, par l {par b {comp jLabel1::b:p::p, comp port1::b:p::p, comp port2::b:p::p, comp port3::b:p::p, comp port4::b:p::p}, par b:l {comp evaluation::b:p::p, comp CruiseSearch::b:p::p}}, space :::x, comp jScrollPane1:::p:260:p, space :::p}}"
 			} ) {
 				name: "jPanel1"
 				add( new FormComponent( "javax.swing.JCheckBox" ) {
@@ -109,6 +109,11 @@ new FormModel {
 						"surrendersFocusOnKeystroke": true
 					} )
 				} )
+				add( new FormComponent( "javax.swing.JButton" ) {
+					name: "evaluation"
+					"text": "Evaluation"
+					addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "evaluationActionPerformed", true ) )
+				} )
 			}, new FormLayoutConstraints( class com.jformdesigner.runtime.GridBagConstraintsEx ) {
 				"hAlign": 2
 				"vAlign": 1
@@ -132,17 +137,11 @@ new FormModel {
 						"text": "Cruises"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "CruisesActionPerformed", true ) )
 					} )
-					add( new FormComponent( "javax.swing.JCheckBoxMenuItem" ) {
-						name: "Sailors"
-						"selected": true
-						"text": "Sailors"
-						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "SailorsActionPerformed", true ) )
-					} )
 				} )
 			}
 		}, new FormLayoutConstraints( null ) {
-			"size": new java.awt.Dimension( 660, 405 )
-			"location": new java.awt.Point( 0, 0 )
+			"size": new java.awt.Dimension( 1340, 520 )
+			"location": new java.awt.Point( 370, 15 )
 		} )
 	}
 }

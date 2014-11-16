@@ -13,8 +13,10 @@ import java.awt.event.ActionListener;
  */
 
 /**
- *
- * @author fuyun
+ * This class create the form LogIn.
+ * @author yunfu
+ * @version 1.0
+ * @since 17/11/2014
  */
 public class LogIn extends javax.swing.JFrame {
 

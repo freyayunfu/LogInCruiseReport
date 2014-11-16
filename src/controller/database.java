@@ -1,16 +1,15 @@
 package controller;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
- *
- * @author fuyun
+ * This class create the database and tables. Also, it defines several methods for
+ * view page to get the data from database to the front page.
+ * @author yunfu
+ * @version 1.0
+ * @since 17/11/2014
  */
 import Model.Cruise;
+import Model.Evaluation;
 import Model.Passenger;
 
 import java.sql.*;
@@ -21,6 +20,7 @@ import java.util.Properties;
 
 
 public class database {
+
     public static Connection conn = null;
     PreparedStatement psInsert;
     PreparedStatement psUpdate;
@@ -33,8 +33,11 @@ public class database {
     Properties props = new Properties();
     String dbName = "cruiseDB";
 
-    
-    
+
+    /**
+     * Constrctor of database which create the database and tables.
+     *
+     */
     public database(){
 
 
@@ -291,44 +294,15 @@ public class database {
     }
 
 
-//            System.out.println("Generate Report 1 : Revenue generated from the cruise passengers by nationality and age.");
-
-//            System.out.println("");
-//
-//            System.out.println("Generate Report 2 : Sailors that worked on a cruise and their supervisors");
-//            rs = s.executeQuery("SELECT SailorID, CruiseID, SupervisorID  FROM sailor");
-//            System.out.printf("%-30s%-30s%-30s\n", "Sailor", "Cruise", "Supervisor");
-//            while (rs.next()) {
-//                if (rs.getInt("SupervisorID") == 0) {
-//                    System.out.printf("%-30s%-30s%-30s\n", "Sailor" + rs.getInt("SailorID"), "Cruise" + rs.getInt("CruiseID"), "");
-//                } else {
-//                    System.out.printf("%-30s%-30s%-30s\n", "Sailor" + rs.getInt("SailorID"), "Cruise" + rs.getInt("CruiseID"), "Supervisor" + rs.getInt("SupervisorID"));
-//                }
-//            }
-//            System.out.println("");
-//
-//            System.out.println("Generate Report 3 : list of passengers sorted by MoneySpentOnCruise");
-//            rs = s.executeQuery("SELECT PassengerName, CruiseID, MoneySpent FROM CruisePassenger LEFT JOIN passenger ON CruisePassenger.PassengerID=passenger.PassengerID ORDER BY MoneySpent");
-//            System.out.printf("%-30s%-30s%-30s\n", "PassengerName", "MoneySpent", "CruiseID");
-//            while (rs.next()) {
-//                System.out.printf("%-30s%-30d%-30s\n", rs.getString("PassengerName"), rs.getInt("MoneySpent"), "Cruise" + rs.getString("CruiseID"));
-//            }
-//            System.out.println("");
-//
-//            System.out.println("Generate Report 4 : Cruise evaluation report by passengers.");
-//            System.out.printf("%-30s%-30s%-30s%-30s%-30s%-30s%-30s\n", "Cruise", "Survey1", "Survey2", "Survey3", "Survey4", "Survey5", "Survey6");
-//            System.out.printf("%-30s%-30f%-30f%-30f%-30f%-30f%-30f\n", ("CruiseID"), rs.getDouble("FOOD"), rs.getDouble("SERVICE"), rs.getDouble("ENVIRONMENT"), rs.getDouble("DRINK"), rs.getDouble("INTERNET"), rs.getDouble("ENTERTAINMENT"));
-//            System.out.println("");
-//            System.out.println("");
-
-
-//            rs.close();
-        //          s.close();
-//            conn.close();
-
 
     ArrayList<Passenger> passenger = new ArrayList<Passenger>();
 
+    /**
+     * This method get the static data from database table passenger and table CruisePassenger.
+     * The data is sorted by Nationality.
+     *
+     * @return ArrayList<Passenger>
+     */
 
     public ArrayList<Passenger> getPassenger(){
 
@@ -361,6 +335,12 @@ public class database {
             return passenger;
         }
 
+    /**
+     * This method get the static data from database table passenger and table CruisePassenger.
+     * The data is sorted by AgeRange.
+     *
+     * @return ArrayList<Passenger>
+     */
         public ArrayList<Passenger> getPassenger2(){
 
 
@@ -395,6 +375,11 @@ public class database {
             return passenger;
         }
 
+    /**
+     * This method get the data of passenger information from database table passenger.
+     *
+     * @return ArrayList<Passenger>
+     */
         public ArrayList<Passenger> getPassengerAll(){
 
 
@@ -430,6 +415,11 @@ public class database {
             return passenger;
         }
 
+    /**
+     * This method get the cruise information data from database table cruise.
+     *
+     * @return ArrayList<Cruise>
+     */
         ArrayList<Cruise> cruise = new ArrayList<Cruise>();
         public ArrayList<Cruise> getCruiseAll(){
 
@@ -463,6 +453,48 @@ public class database {
             }
             return cruise;
         }
+
+    /**
+     * This method get the evaluation data from database table CruisePassenger.
+     *
+     * @return ArrayList<evaluation>
+     */
+    ArrayList<Evaluation> evaluation = new ArrayList<Evaluation>();
+    public ArrayList<Evaluation> getEvaluation(){
+
+        try {
+
+            conn = DriverManager.getConnection("jdbc:derby:" + dbName
+                    + ";create=false", props);
+            conn.setAutoCommit(false);
+            s4 = conn.createStatement();
+
+            rs = s4.executeQuery("SELECT * FROM CruisePassenger ");
+
+            conn.commit();
+
+            int i = 0;
+            evaluation.clear();
+            while (rs.next()) {
+                evaluation.add(new Evaluation());
+                evaluation.get(i).setCruiseID(rs.getInt("CruiseID"));
+                evaluation.get(i).setPassengerID(rs.getInt("PassengerID"));
+                evaluation.get(i).setFood(rs.getDouble("food"));
+                evaluation.get(i).setEntertainment(rs.getDouble("entertainment"));
+                evaluation.get(i).setDrink(rs.getDouble("drink"));
+                evaluation.get(i).setInternet(rs.getDouble("internet"));
+                evaluation.get(i).setEnvironment(rs.getDouble("environment"));
+                evaluation.get(i).setService(rs.getDouble("service"));
+                evaluation.get(i).setMoneySpent(rs.getDouble("MoneySpent"));
+                i++;
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+
+        }
+        return evaluation;
+    }
 
     public void close() throws SQLException {
         conn.close();

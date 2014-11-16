@@ -87,24 +87,27 @@ new FormModel {
 						"text": "Cruises"
 						addEvent( new FormEvent( "java.awt.event.ActionListener", "actionPerformed", "CruisesActionPerformed", true ) )
 					} )
-					add( new FormComponent( "javax.swing.JMenuItem" ) {
-						name: "Sailors"
-						"text": "Sailors"
-					} )
 				} )
 			}
 		}, new FormLayoutConstraints( null ) {
 			"size": new java.awt.Dimension( 783, 330 )
+			"location": new java.awt.Point( 0, 0 )
 		} )
 		add( new FormNonVisual( "javax.swing.ButtonGroup" ) {
 			name: "buttonGroup1"
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 340 )
 		} )
 		add( new FormContainer( "javax.swing.JPopupMenu", new FormLayoutManager( class javax.swing.JPopupMenu ) ) {
 			name: "jPopupMenu1"
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 394 )
 		} )
 		add( new FormComponent( "javax.swing.JMenuItem" ) {
 			name: "jMenuItem1"
 			"text": "jMenuItem1"
+		}, new FormLayoutConstraints( null ) {
+			"location": new java.awt.Point( 0, 434 )
 		} )
 	}
 }
