@@ -30,13 +30,12 @@ public class database {
     Statement s3;
     Statement s4;
     ResultSet rs = null;
-    String[] data1 = new String[4];
     Properties props = new Properties();
     String dbName = "cruiseDB";
 
     
     
-    public database() throws SQLException {
+    public database(){
 
 
             /*
@@ -44,22 +43,35 @@ public class database {
              * cause the database to be created when connecting for the first
              * time. 
              */
-            props.put("user", "");
-            props.put("password", "");
-            try{
+        props.put("user", "");
+        props.put("password", "");
+
+        try {
             conn = DriverManager.getConnection("jdbc:derby:" + dbName
                     + ";create=true", props);
-
             conn.setAutoCommit(false);
             s = conn.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
+        // We create a table... table cruise
 
-            // We create a table... table cruise
+        try {
+            s.executeUpdate("create table cruise(CruiseID int, ShipID int, Port1 varchar(40), Port2 varchar(40), Port3 varchar(40), Port4 varchar(40),primary key(CruiseID))");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-                s.executeUpdate("create table cruise(CruiseID int, ShipID int, Port1 varchar(40), Port2 varchar(40), Port3 varchar(40), Port4 varchar(40),primary key(CruiseID))");
+        try {
+            s = conn.createStatement();
+            rs = s.executeQuery("SELECT * FROM cruise");
+            conn.commit();
+
+
+            if (!rs.next()) {
                 psInsert = conn.prepareStatement("insert into cruise values (?, ?, ?, ?, ?, ?)");
-
                 psInsert.setInt(1, 1);
                 psInsert.setInt(2, 1);
                 psInsert.setString(3, "Shanghai");
@@ -131,13 +143,26 @@ public class database {
                 psInsert.setString(5, "Tokyo");
                 psInsert.setString(6, "Dover");
                 psInsert.executeUpdate();
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        //table passenger
+//                s.executeUpdate("DROP TABLE passenger");
+        try {
+            s.execute("create table passenger(PassengerID int, PassengerName varchar(40), Nationality varchar(40), Age int, primary key(PassengerID))");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            s = conn.createStatement();
+            rs = s.executeQuery("SELECT * FROM passenger");
+            conn.commit();
 
 
-
-
-                //table passenger
-                s.executeUpdate("DROP TABLE passenger");
-                s.execute("create table passenger(PassengerID int, PassengerName varchar(40), Nationality varchar(40), Age int, primary key(PassengerID))");
+            if (!rs.next()) {
                 psInsert = conn.prepareStatement("insert into passenger values (?, ?, ?, ?)");
 
                 String[] FirstNames = {"Bob", "Jill", "Tom", "Brandon", "Joan", "Ethel", "Albert", "Hpward", "Roy", "Annie", "Alice", "Ruby", "Donald", "Carl", "Bonnie", "Lisa", "Scott", "Sean", "Morgan", "Oliva"};
@@ -165,12 +190,28 @@ public class database {
                 s.executeUpdate("update passenger set AgeRange = '30-40' where Age>=30 AND Age<40");
                 s.executeUpdate("update passenger set AgeRange = '40-50' where Age>=40 AND Age<50");
                 s.executeUpdate("update passenger set AgeRange = '50-60' where Age>=50 AND Age<60");
+                conn.commit();
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-                //table CruisePassenger
-                s.executeUpdate("DROP TABLE CruisePassenger");
-                s.execute("create table CruisePassenger(CruiseID int, PassengerID int, food double, "
-                        + "service double, environment double, drink double, internet double, entertainment double, "
-                        + "MoneySpent double, primary key(PassengerID, CruiseID))");
+        //table CruisePassenger
+        try {
+            s.execute("create table CruisePassenger(CruiseID int, PassengerID int, food double, "
+                    + "service double, environment double, drink double, internet double, entertainment double, "
+                    + "MoneySpent double, primary key(PassengerID, CruiseID))");
+            conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            s = conn.createStatement();
+            rs = s.executeQuery("SELECT * FROM CruisePassenger");
+            conn.commit();
+
+            if (!rs.next()) {
                 psInsert = conn.prepareStatement("insert into CruisePassenger values (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 
@@ -193,12 +234,28 @@ public class database {
                         double MoneySpent = (double) (50 + Math.random() * 300);
                         psInsert.setDouble(9, MoneySpent);
                         psInsert.executeUpdate();
+                        conn.commit();
                     }
                 }
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
 
-                //create table Sailor
-                s.executeUpdate("DROP TABLE sailor");
-                s.execute("create table sailor(SailorID int, CruiseID int, SupervisorID int, primary key(SailorID))");
+        //create table Sailor
+        try {
+            s.execute("create table sailor(SailorID int, CruiseID int, SupervisorID int, primary key(SailorID))");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            s = conn.createStatement();
+            rs = s.executeQuery("SELECT * FROM sailor");
+            conn.commit();
+
+
+            if (!rs.next()) {
                 psInsert = conn.prepareStatement("insert into sailor values (?, ?, ?)");
 
 
@@ -211,19 +268,31 @@ public class database {
                     psInsert.setInt(2, i + 1);
                     psInsert.setInt(3, i + 1);
                     psInsert.executeUpdate();
+                    conn.commit();
                 }
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
 
+        try {
+            s = conn.createStatement();
+            rs = s.executeQuery("SELECT TotalMoneySpent FROM passenger");
+            conn.commit();
 
+            if (!rs.next()) {
                 s.executeUpdate("alter table passenger add TotalMoneySpent double");
                 s.executeUpdate("update passenger set TotalMoneySpent = ( SELECT SUM(MoneySpent) FROM CruisePassenger WHERE CruisePassenger.PassengerID=passenger.PassengerID GROUP BY PassengerID)");
-
-
-
-
+                conn.commit();
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 //            System.out.println("Generate Report 1 : Revenue generated from the cruise passengers by nationality and age.");
-         
+
 //            System.out.println("");
 //
 //            System.out.println("Generate Report 2 : Sailors that worked on a cruise and their supervisors");
@@ -247,163 +316,160 @@ public class database {
 //            System.out.println("");
 //
 //            System.out.println("Generate Report 4 : Cruise evaluation report by passengers.");
-//            System.out.printf("%-30s%-30s%-30s%-30s%-30s%-30s%-30s\n", "Cruise", "Survey1", "Survey2", "Survey3", "Survey4", "Survey5", "Survey6"); 
+//            System.out.printf("%-30s%-30s%-30s%-30s%-30s%-30s%-30s\n", "Cruise", "Survey1", "Survey2", "Survey3", "Survey4", "Survey5", "Survey6");
 //            System.out.printf("%-30s%-30f%-30f%-30f%-30f%-30f%-30f\n", ("CruiseID"), rs.getDouble("FOOD"), rs.getDouble("SERVICE"), rs.getDouble("ENVIRONMENT"), rs.getDouble("DRINK"), rs.getDouble("INTERNET"), rs.getDouble("ENTERTAINMENT"));
 //            System.out.println("");
 //            System.out.println("");
 
-            conn.commit();
-////            rs.close();
-  //          s.close();
+
+//            rs.close();
+        //          s.close();
 //            conn.close();
-            }catch(SQLException ex){
-
-//                if(ex.getErrorCode()==20000){
-//                    System.out.println("42Y55");
-//                }
 
 
-                ex.printStackTrace();
-                
-            }
-
-    }
-    
     ArrayList<Passenger> passenger = new ArrayList<Passenger>();
-    
-       public ArrayList<Passenger> getPassenger() throws SQLException{
 
-                       
-            try{
-            
-            conn = DriverManager.getConnection("jdbc:derby:" + dbName
-                    + ";create=false", props);
-            conn.setAutoCommit(false);
-            s1 = conn.createStatement();
-          
-            rs = s1.executeQuery("SELECT Nationality, AgeRange, sum(TotalMoneySpent) as Money, COUNT(PassengerID) as NoOfPassenger FROM passenger group by Nationality, AgeRange ORDER BY Nationality");
-            conn.commit();
-            
-            int i=0;
-            passenger.clear();
-            while(rs.next()){
-                passenger.add(new Passenger());
-                passenger.get(i).setNationality(rs.getString("Nationality"));
-                passenger.get(i).setAgeRange(rs.getString("AgeRange"));
-                passenger.get(i).setMoney(rs.getDouble("Money"));
-                passenger.get(i).setNoOfPassenger(rs.getInt("NoOfPassenger"));
-                 i++;
+
+    public ArrayList<Passenger> getPassenger(){
+
+
+            try {
+
+                conn = DriverManager.getConnection("jdbc:derby:" + dbName
+                        + ";create=false", props);
+                conn.setAutoCommit(false);
+                s1 = conn.createStatement();
+
+                rs = s1.executeQuery("SELECT Nationality, AgeRange, sum(TotalMoneySpent) as Money, COUNT(PassengerID) as NoOfPassenger FROM passenger group by Nationality, AgeRange ORDER BY Nationality");
+                conn.commit();
+
+                int i = 0;
+                passenger.clear();
+                while (rs.next()) {
+                    passenger.add(new Passenger());
+                    passenger.get(i).setNationality(rs.getString("Nationality"));
+                    passenger.get(i).setAgeRange(rs.getString("AgeRange"));
+                    passenger.get(i).setMoney(rs.getDouble("Money"));
+                    passenger.get(i).setNoOfPassenger(rs.getInt("NoOfPassenger"));
+                    i++;
+                }
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+
             }
-          
-            }catch(SQLException ex){
-                
+            return passenger;
+        }
+
+        public ArrayList<Passenger> getPassenger2(){
+
+
+            try {
+
+                conn = DriverManager.getConnection("jdbc:derby:" + dbName
+                        + ";create=false", props);
+                conn.setAutoCommit(false);
+                s2 = conn.createStatement();
+
+                rs = s2.executeQuery("SELECT Nationality, AgeRange, sum(TotalMoneySpent) "
+                        + "as Money, COUNT(PassengerID) as NoOfPassenger FROM passenger "
+                        + "group by AgeRange, Nationality ORDER BY AgeRange");
+
+                conn.commit();
+
+                int i = 0;
+                passenger.clear();
+                while (rs.next()) {
+                    passenger.add(new Passenger());
+                    passenger.get(i).setNationality(rs.getString("Nationality"));
+                    passenger.get(i).setAgeRange(rs.getString("AgeRange"));
+                    passenger.get(i).setMoney(rs.getDouble("Money"));
+                    passenger.get(i).setNoOfPassenger(rs.getInt("NoOfPassenger"));
+                    i++;
+                }
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+
             }
-        return passenger;
-       }
+            return passenger;
+        }
 
-       public ArrayList<Passenger> getPassenger2() throws SQLException{
+        public ArrayList<Passenger> getPassengerAll(){
 
-              
-            try{
-            
-            conn = DriverManager.getConnection("jdbc:derby:" + dbName
-                    + ";create=false", props);
-            conn.setAutoCommit(false);
-            s2 = conn.createStatement();
-          
-            rs = s2.executeQuery("SELECT Nationality, AgeRange, sum(TotalMoneySpent) "
-                    + "as Money, COUNT(PassengerID) as NoOfPassenger FROM passenger "
-                    + "group by AgeRange, Nationality ORDER BY AgeRange");
-         
-            conn.commit();
-            
-            int i=0;
-            passenger.clear();
-            while(rs.next()){
-                passenger.add(new Passenger());
-                passenger.get(i).setNationality(rs.getString("Nationality"));
-                passenger.get(i).setAgeRange(rs.getString("AgeRange"));
-                passenger.get(i).setMoney(rs.getDouble("Money"));
-                passenger.get(i).setNoOfPassenger(rs.getInt("NoOfPassenger"));
-                 i++;
+
+            try {
+
+                conn = DriverManager.getConnection("jdbc:derby:" + dbName
+                        + ";create=false", props);
+
+                conn.setAutoCommit(false);
+                s3 = conn.createStatement();
+
+                rs = s3.executeQuery("SELECT * FROM passenger ");
+
+                conn.commit();
+
+                int i = 0;
+                passenger.clear();
+                while (rs.next()) {
+
+                    passenger.add(new Passenger());
+                    passenger.get(i).setID(rs.getInt("PassengerID"));
+                    passenger.get(i).setName(rs.getString("PassengerName"));
+                    passenger.get(i).setNationality(rs.getString("Nationality"));
+                    passenger.get(i).setAge(rs.getInt("Age"));
+                    passenger.get(i).setAgeRange(rs.getString("AgeRange"));
+                    i++;
+                }
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+
             }
-          
-            }catch(SQLException ex){
-                
-            }
-        return passenger;
-       }
-       
-        public ArrayList<Passenger> getPassengerAll() throws SQLException{
+            return passenger;
+        }
 
-              
-            try{
-            
-            conn = DriverManager.getConnection("jdbc:derby:" + dbName
-                    + ";create=false", props);
-
-            conn.setAutoCommit(false);
-            s3 = conn.createStatement();
-
-            rs = s3.executeQuery("SELECT * FROM passenger ");
-         
-            conn.commit();
-            
-            int i=0;
-            passenger.clear();
-            while(rs.next()){
-
-                passenger.add(new Passenger());
-                passenger.get(i).setID(rs.getInt("PassengerID"));
-                passenger.get(i).setName(rs.getString("PassengerName"));
-                passenger.get(i).setNationality(rs.getString("Nationality"));
-                passenger.get(i).setAge(rs.getInt("Age"));
-                passenger.get(i).setAgeRange(rs.getString("AgeRange"));
-                 i++;
-            }
-          
-            }catch(SQLException ex){
-                
-            }
-        return passenger;
-       }
-        
         ArrayList<Cruise> cruise = new ArrayList<Cruise>();
-        public ArrayList<Cruise> getCruiseAll() throws SQLException{
+        public ArrayList<Cruise> getCruiseAll(){
 
-            try{
-            
-            conn = DriverManager.getConnection("jdbc:derby:" + dbName
-                    + ";create=false", props);
-            conn.setAutoCommit(false);
-            s4 = conn.createStatement();
-          
-            rs = s4.executeQuery("SELECT * FROM cruise ");
-         
-            conn.commit();
-            
-            int i=0;
-            cruise.clear();
-            while(rs.next()){
-                cruise.add(new Cruise());
-                cruise.get(i).setID(rs.getInt("CruiseID"));
-                cruise.get(i).setShipID(rs.getInt("ShipID"));
-                cruise.get(i).setPort1(rs.getString("Port1"));
-                cruise.get(i).setPort2(rs.getString("Port2"));
-                cruise.get(i).setPort3(rs.getString("Port3"));
-                cruise.get(i).setPort4(rs.getString("Port4"));
-                 i++;
+            try {
+
+                conn = DriverManager.getConnection("jdbc:derby:" + dbName
+                        + ";create=false", props);
+                conn.setAutoCommit(false);
+                s4 = conn.createStatement();
+
+                rs = s4.executeQuery("SELECT * FROM cruise ");
+
+                conn.commit();
+
+                int i = 0;
+                cruise.clear();
+                while (rs.next()) {
+                    cruise.add(new Cruise());
+                    cruise.get(i).setID(rs.getInt("CruiseID"));
+                    cruise.get(i).setShipID(rs.getInt("ShipID"));
+                    cruise.get(i).setPort1(rs.getString("Port1"));
+                    cruise.get(i).setPort2(rs.getString("Port2"));
+                    cruise.get(i).setPort3(rs.getString("Port3"));
+                    cruise.get(i).setPort4(rs.getString("Port4"));
+                    i++;
+                }
+
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+
             }
-          
-            }catch(SQLException ex){
-                
-            }
-        return cruise;
-       }
-       
-       public void close() throws SQLException {
-           conn.close();
-       }
-    
+            return cruise;
+        }
+
+    public void close() throws SQLException {
+        conn.close();
+    }
+
+
 }
+    
+
 

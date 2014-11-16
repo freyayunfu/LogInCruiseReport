@@ -7,9 +7,6 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -245,7 +242,7 @@ public class Cruises extends javax.swing.JFrame {
             CruiseTable.setValueAt(null, i, 2);
             CruiseTable.setValueAt(null, i, 3);
         }
-        try{
+//        try{
         for(int i=0; i<SearchPage.db.getCruiseAll().size(); i++){
 
             CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getID(), i, 0);
@@ -255,9 +252,9 @@ public class Cruises extends javax.swing.JFrame {
             CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort3(), i, 4);
             CruiseTable.setValueAt(SearchPage.db.getCruiseAll().get(i).getPort4(), i, 5);
         }
-        } catch (SQLException ex) {
-                Logger.getLogger(SearchPage.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//        } catch (SQLException ex) {
+//                Logger.getLogger(SearchPage.class.getName()).log(Level.SEVERE, null, ex);
+//            }
     }//GEN-LAST:event_CruiseSearchActionPerformed
 
 //    /**
